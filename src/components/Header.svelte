@@ -78,6 +78,12 @@
     justify-content: space-between;
   }
 
+  .nav-links {
+    display: flex;
+    gap: clamp(1rem, 2vw, 2.5rem);
+    align-items: center;
+    }
+
   .logo {
     font-size: 1.75rem;
     font-weight: 700;

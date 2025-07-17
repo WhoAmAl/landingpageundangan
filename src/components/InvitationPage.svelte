@@ -1,80 +1,76 @@
 <script>
-    export let groom = "LAKI LAKI";
-    export let bride = "PEREMPUAN";
-    import LandingPage from '../assets/landingpage.jpg'; // pastikan path benar
+  export let groom = "LAKI LAKI";
+  export let bride = "PEREMPUAN";
+  import LandingPage from '../assets/landingpage.jpg';
+
+  let imgRef;
+
+  function handleMouseMove(event) {
+    const { left, top, width, height } = imgRef.getBoundingClientRect();
+    const x = event.clientX - left;
+    const y = event.clientY - top;
+
+    const rotateX = ((y / height) - 0.5) * -20; // lebih tajam
+    const rotateY = ((x / width) - 0.5) * 20;
+
+    imgRef.style.transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+  }
+
+  function resetTransform() {
+    imgRef.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+  }
 </script>
 
 <section class="card">
   <div class="card-inner">
-
-    <h2 class="change-title">Change</h2>
-    <h3 class="change-sub">of Plans</h3>
+    <h2 class="change-title">Wedding</h2>
+    <h3 class="change-sub">Invitations</h3>
 
     <div class="photo">
       <img
         src={LandingPage}
         alt="Illustration"
+        bind:this={imgRef}
+        on:mousemove={handleMouseMove}
+        on:mouseleave={resetTransform}
       />
     </div>
 
-    <p class="message">
-      Kepada Keluarga dan Teman-Teman,<br />
-      Karena ada beberpa hal yang tidak terduga, kami harus mengubah rencana pernikahan
+    <h2 class="invitation-heading">You're Invited!</h2>
+
+    <p class="invitation-text">
+      Dengan penuh sukacita, kami mengundang Bapak/Ibu/Saudara/i untuk hadir dalam acara pernikahan kami:
     </p>
 
-    <h2 class="names">{groom} &amp; {bride}</h2>
+    <h1 class="couple-names">{groom} &amp; {bride}</h1>
 
-    <p class="status">telah ditunda</p>
+    <div class="invitation-detail">
+      <p class="date">🗓 Sabtu, 28 Desember 20xx</p>
+      <p class="time">🕓 Pukul 16.00 WIB – selesai</p>
+      <p class="place">📍 Ballroom Grand Amara, Jakarta</p>
+    </div>
 
-    <p class="apology">
-      Kami mohon maaf apabila<br />
-      terjadi ketidaknyamanan atas perubahan ini.
-    </p>
-
-    <p class="note">
-      Ditunda sampai<br />
-      <strong>00 Desember 20xx</strong>
-    </p>
-
+    <blockquote class="invitation-poetry">
+      "Kasih menyatukan dua hati<br />
+      dalam doa dan harapan abadi."<br />
+      — Tidak sabar menantikan kehadiran Anda 🌷
+    </blockquote>
   </div>
 </section>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@400;600&family=Playfair+Display:wght@500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@500;600&family=Inter:wght@400;500&display=swap');
 
   .card {
-    max-width: 480px;
-    margin: 2rem auto;
-    padding: 2rem 1.5rem;
+    max-width: 640px;
+    margin: 3rem auto;
+    padding: 3rem 2rem;
     border-radius: 1rem;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-    font-family: 'Inter', sans-serif;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+    background: linear-gradient(to bottom right, #fdfbf7, #fff);
     text-align: center;
     position: relative;
-    overflow: hidden;
-    background-image: linear-gradient(180deg, #fdfdfd 0%, #fdfdfd 100%);
-  }
-
-  .card::before,
-  .card::after {
-    content: "";
-    position: absolute;
-    width: 120px;
-    height: 120px;
-    background: url('/assets/leaves-corner-top.png') no-repeat center;
-    background-size: contain;
-    z-index: 0;
-  }
-
-  .card::before {
-    top: 0;
-    left: 0;
-  }
-
-  .card::after {
-    bottom: 0;
-    right: 0;
-    transform: rotate(180deg);
+    font-family: 'Inter', sans-serif;
   }
 
   .card-inner {
@@ -84,97 +80,114 @@
 
   .change-title {
     font-family: 'Great Vibes', cursive;
-    font-size: 2.5rem;
+    font-size: 3rem;
     margin: 0;
-    line-height: 1;
+    color: #d6336c;
   }
 
   .change-sub {
     font-family: 'Playfair Display', serif;
     text-transform: uppercase;
-    font-size: 0.9rem;
-    letter-spacing: 1.5px;
-    margin: 0 0 1rem;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+    color: #444;
+  }
+
+  .photo {
+    perspective: 600px;
   }
 
   .photo img {
     width: 100%;
     height: auto;
-    border-radius: 0.5rem;
-    margin: 1rem 0;
+    border-radius: 0.75rem;
+    margin: 1.5rem 0;
+    object-fit: cover;
+    max-height: 350px;
+    transition: transform 0.15s ease-out;
+    transform-style: preserve-3d;
+    will-change: transform;
   }
 
-  .message,
-  .status,
-  .apology,
-  .note {
-    font-size: 0.95rem;
-    color: #444;
-    margin: 0.75rem 0;
-  }
-
-  .names {
-    font-family: 'Great Vibes', cursive;
-    font-size: 2rem;
-    margin: 0.5rem 0;
+  .invitation-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.75rem;
+    font-weight: 600;
     color: #222;
+    margin-bottom: 0.75rem;
   }
 
-  .status {
-    text-transform: uppercase;
-    font-weight: 600;
+  .invitation-text {
+    font-size: 1.05rem;
+    color: #555;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+  }
+
+  .couple-names {
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: black;
+    margin: 1.25rem 0;
+  }
+
+  .invitation-detail {
     font-size: 1rem;
-    margin-top: 0.75rem;
+    color: #444;
+    line-height: 1.8;
+    margin-bottom: 2rem;
   }
 
-  .note strong {
-    font-weight: 600;
-    color: #000;
+  .invitation-detail p {
+    margin: 0.25rem 0;
   }
 
-  /* Tablet breakpoint */
-  @media (min-width: 640px) {
-    .card {
-      padding: 3rem 2rem;
-    }
+  .invitation-poetry {
+    font-style: italic;
+    font-size: 1rem;
+    color: #666;
+    margin-top: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    line-height: 1.6;
+  }
 
-    .names {
-      font-size: 2.5rem;
-    }
-
+  @media (max-width: 640px) {
     .change-title {
-      font-size: 3rem;
+      font-size: 2.4rem;
     }
 
-    .message,
-    .apology,
-    .note {
-      font-size: 1rem;
+    .couple-names {
+      font-size: 2rem;
+    }
+
+    .invitation-heading {
+      font-size: 1.5rem;
+    }
+
+    .invitation-text,
+    .invitation-detail,
+    .invitation-poetry {
+      font-size: 0.95rem;
+    }
+
+    .card {
+      padding: 2rem 1.5rem;
     }
   }
 
-  /* Laptop breakpoint */
   @media (min-width: 1024px) {
     .card {
-      max-width: 600px;
       padding: 4rem 3rem;
+      max-width: 700px;
     }
 
     .change-title {
-      font-size: 3.25rem;
+      font-size: 3.5rem;
     }
 
-    .names {
+    .couple-names {
       font-size: 3rem;
-    }
-
-    .status {
-      font-size: 1.1rem;
-    }
-
-    .photo img {
-      max-height: 360px;
-      object-fit: cover;
     }
   }
 </style>

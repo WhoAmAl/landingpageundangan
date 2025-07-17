@@ -10,8 +10,8 @@
   });
 
   export let links = [
-    { label: 'Home', href: '/' },
-    { label: 'Card Example', href: '/InvitationCard' },
+    { label: 'Home', href: '#' },
+    { label: 'Card Example', href: '#' },
     { label: 'Contact', href: 'https://wa.me/6289675882770' },
   ];
 
@@ -28,7 +28,26 @@
     <!-- Desktop Navigation -->
     <nav class="nav-links desktop-nav">
       {#each links as link}
-        <a href={link.href}>{link.label}</a>
+        <a
+        href={link.href}
+        on:click={(e) => {
+            if (link.label === 'Card Example') {
+            e.preventDefault();
+            const section = document.getElementById('card-section');
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+                mobileNavOpen = false;
+            }
+            }
+            else if (link.label === 'Home') {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                mobileNavOpen = false;
+            }
+        }}
+        >
+        {link.label}
+        </a>
       {/each}
     </nav>
 

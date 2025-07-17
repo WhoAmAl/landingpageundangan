@@ -36,6 +36,8 @@
     border-radius: 1rem;
     padding: 3rem 2rem;
     margin: 0 auto;
+    margin-top: 25px;
+    margin-bottom: 100px;
     max-width: 1280px;
     }
 

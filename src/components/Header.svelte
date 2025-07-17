@@ -1,34 +1,53 @@
 <script>
   import { onMount } from 'svelte';
   let show = false;
+  let mobileNavOpen = false;
 
   onMount(() => {
-    // Trigger animasi saat komponen mount
     requestAnimationFrame(() => {
       show = true;
     });
   });
 
   export let links = [
-    { label: 'Home', href: '#' },
-    { label: 'Features', href: '#features' },
-    { label: 'Pricing', href: '#pricing' },
+    { label: 'Home', href: '/' },
+    { label: 'Card Example', href: '/InvitationCard' },
     { label: 'Contact', href: 'https://wa.me/6289675882770' },
   ];
+
+  function toggleMenu() {
+    mobileNavOpen = !mobileNavOpen;
+  }
 </script>
 
 <header class="navbar {show ? 'show' : ''}">
   <div class="navbar-inner">
     <!-- Logo -->
-    <div class="logo">✨ MyBrand</div>
+    <div class="logo">✨ Wedding Day</div>
 
-    <!-- Navigation -->
-    <nav class="nav-links">
+    <!-- Desktop Navigation -->
+    <nav class="nav-links desktop-nav">
       {#each links as link}
         <a href={link.href}>{link.label}</a>
       {/each}
     </nav>
+
+    <!-- Mobile Menu Button -->
+    <button class="burger" on:click={toggleMenu} aria-label="Toggle navigation">
+      <div class:open={mobileNavOpen}></div>
+      <div class:open={mobileNavOpen}></div>
+      <div class:open={mobileNavOpen}></div>
+    </button>
   </div>
+
+  <!-- Mobile Navigation -->
+  {#if mobileNavOpen}
+    <nav class="mobile-nav">
+      {#each links as link}
+        <a href={link.href} on:click={() => (mobileNavOpen = false)}>{link.label}</a>
+      {/each}
+    </nav>
+  {/if}
 </header>
 
 <style>
@@ -65,11 +84,6 @@
     color: #111;
   }
 
-  .nav-links {
-    display: flex;
-    gap: clamp(1rem, 2vw, 2.5rem);
-  }
-
   .nav-links a {
     color: #333;
     text-decoration: none;
@@ -98,8 +112,68 @@
     width: 100%;
   }
 
+  /* Burger Button */
+  .burger {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+
+  .burger div {
+    width: 25px;
+    height: 3px;
+    background-color: #333;
+    transition: all 0.3s ease;
+  }
+
+  .burger div.open:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .burger div.open:nth-child(2) {
+    opacity: 0;
+  }
+
+  .burger div.open:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
+  /* Mobile Navigation */
+  .mobile-nav {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 1.5rem;
+    background-color: white;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .mobile-nav a {
+    padding: 0.75rem 0;
+    font-weight: 500;
+    color: #333;
+    text-decoration: none;
+  }
+
+  .mobile-nav a:hover {
+    color: #000;
+  }
+
+  /* Responsive */
   @media (max-width: 768px) {
-    .nav-links {
+    .desktop-nav {
+      display: none;
+    }
+
+    .burger {
+      display: flex;
+    }
+  }
+
+  @media (min-width: 769px) {
+    .mobile-nav {
       display: none;
     }
   }
